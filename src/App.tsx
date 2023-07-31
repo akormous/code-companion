@@ -5,6 +5,7 @@ import ChatRoom from './components/ChatRoom';
 import Navbar from './components/Navbar';
 import Home from './components/Home';
 import { Room } from "./interfaces";
+import About from "./components/About";
 
 
 const url = 'http://localhost:8080/api/v1/room/create'; 
@@ -25,14 +26,19 @@ function App() {
 
   return (
     <>
+    <Navbar />
     <Paper
      sx={{
-      height: '100vh',
-      backgroundColor: theme.palette.background.default
+      height: '92vh',
+      backgroundColor: theme.palette.background.default,
+      borderRadius: '0px',
+      display: 'flex',
+      justifyContent: 'center'
      }}
     >
-    <Navbar />
+    
     <Routes>
+      <Route path="/about" element={<About />} />
       <Route path="/" element={<Home createRoom={handleCreateRoom} setRoom={setMyRoom} room={myRoom} />} />
       <Route 
        path="room/:id" 

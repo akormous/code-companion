@@ -1,31 +1,31 @@
 export const dark = {
     palette: {
-        type: 'dark',
+        mode: 'dark',
         primary: {
-            main: '#546a7b',
-            contrastText: '#fdfdfd'
+          main: '#3f8894',
+          contrastText: '#fff'
         },
         secondary: {
-            main: '#7776bc',
+          main: '#c1121f',
         },
         background: {
-            default: '#33415c',
-            paper: '#5c677d',
+          default: '#17171f',
+          paper: '#2b2929',
         },
         error: {
-            main: '#ff1c08',
+          main: '#ff1c08',
         },
         warning: {
-            main: '#ff9f14',
+          main: '#ff9f14',
         },
         info: {
-            main: '#ffff8d',
+          main: '#ffff8d',
         },
         success: {
-            main: '#32c936',
+          main: '#4CAF50',
         },
         text: {
-            primary: '#fdfdfd',
+          primary: '#faf4f4',
         },
     },
     typography: {
@@ -33,22 +33,8 @@ export const dark = {
         button: {
             fontFamily: 'Questrial'
         },
-        
-    },
-    components: {
-        MuiTextField: {
-            styleOverrides: {
-                '&.Mui-focused': {
-                    color: '#fdfdfd'
-                },
-                textDecorationColor: '#fdfdfd',
-                label: {
-                    color: '#fdfdfd'
-                },
-                input: {
-                    color: '#fdfdfd'
-                },    
-            }
+        body1: {
+            fontFamily: 'Questrial'
         }
-    }
-  }
+    },
+}

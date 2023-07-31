@@ -6,7 +6,7 @@ import { light } from "./light";
 export const ColorModeContext = createContext( { toggleColorMode: () => {} } );
 
 export default function CustomThemeProvider({ children }: { children: React.ReactNode }) {
-    const [mode, setMode] = useState<'light' | 'dark'>('dark');
+    const [mode, setMode] = useState<'light' | 'dark'>('light');
     const colorMode = useMemo(() => ({
         toggleColorMode: () => {
             setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
