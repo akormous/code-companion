@@ -6,7 +6,8 @@ export const light = {
         contrastText: '#000000'
       },
       secondary: {
-        main: '#90e0ef',
+        main: '#4361ee',
+        contrastText: '#fff'
       },
       background: {
         default: '#f1f3f4',

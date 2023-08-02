@@ -3,6 +3,7 @@ import { ColorModeContext } from "../theme/CustomThemeProvider";
 import { Box, AppBar, Toolbar, Typography, Button, useTheme } from "@mui/material";
 import ThemeSwitch from "../theme/ThemeSwitch";
 import { Link } from "react-router-dom"
+import Clock from "./Clock";
 
 export default function Navbar() {
     const theme = useTheme();
@@ -25,9 +26,10 @@ export default function Navbar() {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             code companion
           </Typography>
+          <Clock />
           <Button component={Link} to="/" color="inherit">Home</Button>
-          <Button component={Link} to="/about" color="inherit">About</Button>
-          <ThemeSwitch onClick={colorMode.toggleColorMode} />
+          <Button component={Link} to="/room/1" color="inherit">About</Button>
+          <ThemeSwitch checked={theme.palette.mode === "dark"} onClick={colorMode.toggleColorMode} />
         </Toolbar>
       </AppBar>
       </Box>
