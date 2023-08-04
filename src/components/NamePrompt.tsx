@@ -1,20 +1,24 @@
-import { Modal, Box, TextField, Button, useTheme } from "@mui/material";
+import { Modal, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import PrimaryButton from "./ui/PrimaryButton";
+import PrimaryBox from "./ui/PrimaryBox";
 
-const url = "http://localhost:3001/api/v1/room/create"
+const serverUrl = import.meta.env.VITE_SERVER_URL;
+const baseUrl = import.meta.env.VITE_BASE_URL;
 
+console.log(serverUrl);
+console.log(baseUrl);
 interface NamePromptProps {
     open: boolean,
     setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function NamePrompt({open, setOpen}: NamePromptProps) {
-    const theme = useTheme();
     const [name, setName] = useState("");
     const handleClose = () => setOpen(false);
 
-    const handleRoomJoin = () => {
-        fetch(url, {
+    const handleJoinRoom = () => {
+        fetch(`${serverUrl}/room/create`, {
             method: 'POST',
             body: JSON.stringify({ name: name }),
             headers: {
@@ -23,64 +27,31 @@ export default function NamePrompt({open, setOpen}: NamePromptProps) {
             }
         }).then((res) => res.json())
         .then((data) => {
-            window.location.replace(`http://localhost:5173/room/${data.roomId}`);
+            //return redirect(`${baseUrl}/room/${data.roomId}`);
+            window.location.replace(`${baseUrl}/room/${data.roomId}`);
         });
     }
     
     return (
-        <>
-            <Modal
-                open={open}
-            >
-                
-            <Box sx={{
-                 position: 'absolute',
-                 top: '50%',
-                 left: '50%',
-                 transform: 'translate(-50%, -50%)',
-                 width: 400,
-                 bgcolor: 'background.paper',
-                 border: '2px solid #000',
-                 boxShadow: 24,
-                 p: 4,
-            }}>
-                
-            <TextField
-                sx={{
-                    marginRight: '1em',
-                    marginBlock: '10px',
-                    
-                }}
-                id="roomId"
-                label="Enter name"
-                value={name}
-                size="small"
-                onChange={(e) => setName(e.target.value)}
-            />
-                <Button sx={{
-                    color: theme.palette.text.primary,
-                    marginRight: '1em',
-                    marginBlock: '10px',
-                    '&:hover': {
-                        'box-shadow': `0px 0px 25px ${theme.palette.primary.main}`,
-                        }
+        
+        <Modal open={open} onClose={handleClose}>
+            <PrimaryBox sx={{ alignContent: 'center', display: 'flex', flexDirection: 'column' }}>
+                <Typography align="center" variant="h4" sx={{ paddingBottom: '1em' }}>Create new room</Typography> 
+                <TextField
+                    sx={{
+                        width: '100%',
                     }}
-                    onClick={handleRoomJoin}
-                    variant="text">
+                    id="roomId"
+                    label="Enter your name"
+                    value={name}
+                    size="small"
+                    onChange={(e) => setName(e.target.value)}
+                />
+                <PrimaryButton sx={{ minWidth: '0', width: '100%' }} disabled={!name.replace(/\s/g, '').length} onClick={handleJoinRoom} variant="text">
                         Join
-                </Button>
-                <Button 
-                sx={{
-                    color: theme.palette.text.primary,
-                    marginRight: '1em',
-                    marginBlock: '10px',
-                    '&:hover': {
-                        'box-shadow': `0px 0px 25px ${theme.palette.primary.main}`,
-                        }
-                    }}
-                onClick={handleClose}>Close</Button>
-            </Box>
+                </PrimaryButton>
+            </PrimaryBox>
         </Modal>
-        </>
+        
     );
 }

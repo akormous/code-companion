@@ -1,9 +1,9 @@
 import { Paper, useTheme } from "@mui/material"
 import { Routes, Route } from 'react-router-dom';
-import CodeRoom from "./components/CodeRoom";
 import Navbar from './components/Navbar';
-import Home from './components/Home';
 import About from "./components/About";
+import CodeRoom from "./pages/CodeRoom";
+import Home from './pages/Home';
 
 
 function App() {

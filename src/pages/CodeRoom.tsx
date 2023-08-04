@@ -2,6 +2,7 @@ import { Grid, Container, MenuItem, TextField, Typography, Avatar, useTheme, Lis
 import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 import supportedLanguages from "../data/supportedLanguages.json";
+import * as monaco from '@monaco-editor/react';
 
 const participants = ["James Bond", "Ethan Hunt", "John Wick"];
 

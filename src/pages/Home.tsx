@@ -1,10 +1,13 @@
-import { TextField, Typography, Button, useTheme, Grid } from "@mui/material"
+import { TextField, Typography, useTheme, Grid, InputAdornment } from "@mui/material"
 import { Link } from "react-router-dom"
 import { useState } from "react";
-import NamePrompt from "./NamePrompt";
+import NamePrompt from "../components/NamePrompt";
 import CodeSvgDark from "../assets/undraw_collaboration_dark.svg";
 import CodeSvgLight from "../assets/undraw_collaboration_light.svg";
-
+import PrimaryButton from "../components/ui/PrimaryButton";
+import SecondaryButton from "../components/ui/SecondaryButton";
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import KeyboardIcon from '@mui/icons-material/Keyboard';
 
 export default function Home() {
     const theme = useTheme();
@@ -31,45 +34,31 @@ export default function Home() {
                 <Grid item xs={12} md={6} sx={{ paddingInline: '1em', paddingBlock: '1em' }}>
                     <Typography variant="h2" marginBottom={3}>Code collaboration.<br /> Free for everyone.</Typography>
                     <Typography variant="body1" marginBottom={3}>epic insane coding platform epic epic all i do is win win win no matter what got money on my mind and never get enough</Typography>
-                        <Button sx={{
-                                backgroundColor: theme.palette.secondary.main,
-                                color: theme.palette.secondary.contrastText,
-                                marginRight: '1em',
-                                minWidth: '12em',
-                                marginBlock: '10px',
-                                '&:hover': {
-                                    backgroundColor: theme.palette.secondary.main,
-                                    'box-shadow': `0px 0px 25px ${theme.palette.secondary.main}`,
-                                }
-                            }}
-                            size="large"
-                            onClick={handleOpen}
-                        >
-                            Create Room
-                        </Button>
+                        <PrimaryButton size="large" onClick={handleOpen} startIcon={<MeetingRoomIcon />}>
+                            Create a Room
+                        </PrimaryButton>
                         <NamePrompt open={open} setOpen={setOpen} />
+                        &nbsp;
+                        or
+                        &nbsp;
                         <TextField
-                            sx={{
-                                marginRight: '1em',
-                                marginBlock: '10px',
-                                
+                            InputProps={{
+                                startAdornment: (
+                                <InputAdornment position="start">
+                                    <KeyboardIcon />
+                                </InputAdornment>
+                                ),
                             }}
+                            sx={{ marginRight: '1em', marginBlock: '10px' }}
                             id="roomId"
                             label="Enter Room ID"
                             value={roomId}
                             size="small"
                             onChange={(e) => handleRoomIdChange(e)}
                         />
-                        {roomId !== "" ? (<Button sx={{
-                                            color: theme.palette.text.primary,
-                                            marginRight: '1em',
-                                            marginBlock: '10px',
-                                            '&:hover': {
-                                                'box-shadow': `0px 0px 25px ${theme.palette.primary.main}`,
-                                                }
-                                            }}
-                                            component={Link} to={"/room/" + roomId}
-                                            variant="text">Join</Button>) : (<></>) }
+                        <SecondaryButton sx={{ minWidth: '0' }} disabled={!roomId.replace(/\s/g, '').length} component={Link} to={`/room/${roomId}`}variant="text">
+                            Join
+                        </SecondaryButton>
                 </Grid>
                 <Grid item xs={12} md={6} sx={{ display: 'flex', justifyContent: 'center' }}>
                     {collabSvg()}
