@@ -1,5 +1,5 @@
 import { useState, useMemo, createContext } from "react";
-import {ThemeProvider, createTheme} from '@mui/material';
+import {ThemeProvider, createTheme, responsiveFontSizes} from '@mui/material';
 import { dark } from "./dark";
 import { light } from "./light";
 
@@ -15,9 +15,9 @@ export default function CustomThemeProvider({ children }: { children: React.Reac
 
     const theme = useMemo(() => {
         if(mode === 'light') {
-            return createTheme(light);
+            return responsiveFontSizes( createTheme(light) );
         }
-        return createTheme(dark);
+        return responsiveFontSizes( createTheme(dark) );
     }, [mode]);
 
     return (

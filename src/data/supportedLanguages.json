@@ -1,0 +1,42 @@
+[
+    {
+        "value": "cpp",
+        "label": "C++"
+    },
+    {
+        "value": "csharp",
+        "label": "C#"
+    },
+    {
+        "value": "go",
+        "label": "Go"
+    },
+    {
+        "value": "java",
+        "label": "Java"
+    },
+    {
+        "value": "javascript",
+        "label": "JavaScript"
+    },
+    {
+        "value": "kotlin",
+        "label": "Kotlin"
+    },
+    {
+        "value": "python",
+        "label": "Python3"
+    },
+    {
+        "value": "rust",
+        "label": "Rust"
+    },
+    {
+        "value": "shell",
+        "label": "Shell"
+    },
+    {
+        "value": "typescript",
+        "label": "TypeScript"
+    }
+]

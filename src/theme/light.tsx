@@ -3,12 +3,14 @@ export const light = {
       mode: 'light',
       primary: {
         main: 'rgba(29,51,84,0.84)',
+        contrastText: '#000000'
       },
       secondary: {
-        main: '#9ED8DB',
+        main: '#4361ee',
+        contrastText: '#fff'
       },
       background: {
-        default: '#FCF7F8',
+        default: '#f1f3f4',
         paper: '#e6e6e6',
       },
       text: {
@@ -30,7 +32,10 @@ export const light = {
     typography: {
         fontFamily: '"Quattrocento", "Questrial"',
         button: {
-            fontFamily: 'Questrial'
+          fontFamily: 'Questrial'
         },
+        body1: {
+          fontFamily: 'Questrial'
+        }
     },
   }

@@ -1,27 +1,36 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ColorModeContext } from "../theme/CustomThemeProvider";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, Button, useTheme } from "@mui/material";
 import ThemeSwitch from "../theme/ThemeSwitch";
 import { Link } from "react-router-dom"
+import Clock from "./Clock";
+
 export default function Navbar() {
+    const theme = useTheme();
     const colorMode = useContext(ColorModeContext);
+
+    useEffect(() => {
+      document.body.style.backgroundColor = theme.palette.background.default;
+    }, [])
+    
     return (
+        <Box sx={{ flexGrow: 1 }}>
         <AppBar 
          position="static" 
          sx={{
-            backgroundColor: 'rgba(0,0,0,0.6)',
-            borderRadius: '0px',
-            '&:hover': {
-                backgroundColor: 'rgba(0,0,0,0.7)',                
-            }
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.primary.contrastText,
+            boxShadow: '0',
          }}>
         <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            THOOK
+          <Typography component={Link} to="/" variant="h6" sx={{ flexGrow: 1, color: theme.palette.primary.contrastText, textDecoration: 'none', }}>
+            code companion
           </Typography>
-          <ThemeSwitch onClick={colorMode.toggleColorMode} />
-          <Button component={Link} to="/" color="inherit">HOME</Button>
+          <Clock />
+          <Button component={Link} to="/room/1" color="inherit">About</Button>
+          <ThemeSwitch checked={theme.palette.mode === "dark"} onClick={colorMode.toggleColorMode} />
         </Toolbar>
       </AppBar>
+      </Box>
     );
 }
