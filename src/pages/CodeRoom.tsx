@@ -3,6 +3,9 @@ import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 import supportedLanguages from "../data/supportedLanguages.json";
 import * as monaco from '@monaco-editor/react';
+import * as Y from 'yjs';
+import { WebsocketProvider } from 'y-websocket';
+import { MonacoBinding } from 'y-monaco';
 
 const participants = ["James Bond", "Ethan Hunt", "John Wick"];
 
