@@ -1,4 +1,5 @@
 export interface Room {
     id: string,
-    dateCreated: string
+    dateCreated: string,
+    participants: string[]
 }

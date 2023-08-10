@@ -2,6 +2,7 @@ import { Modal, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import PrimaryButton from "./ui/PrimaryButton";
 import PrimaryBox from "./ui/PrimaryBox";
+import { useNavigate } from "react-router-dom";
 
 const serverUrl = import.meta.env.VITE_SERVER_URL;
 const baseUrl = import.meta.env.VITE_BASE_URL;
@@ -16,9 +17,10 @@ interface NamePromptProps {
 export default function NamePrompt({open, setOpen}: NamePromptProps) {
     const [name, setName] = useState("");
     const handleClose = () => setOpen(false);
+    const navigate = useNavigate();
 
     const handleJoinRoom = () => {
-        fetch(`${serverUrl}/room/create`, {
+        fetch(`${serverUrl}/api/v1/room/create`, {
             method: 'POST',
             body: JSON.stringify({ name: name }),
             headers: {
@@ -27,8 +29,9 @@ export default function NamePrompt({open, setOpen}: NamePromptProps) {
             }
         }).then((res) => res.json())
         .then((data) => {
+            navigate(`/room/${data.roomId}`, { state: { roomId: data.roomId, dateCreated: new Date().toLocaleString(), participants: [name] } })
             //return redirect(`${baseUrl}/room/${data.roomId}`);
-            window.location.replace(`${baseUrl}/room/${data.roomId}`);
+            // window.location.replace(`${baseUrl}/room/${data.roomId}`);
         });
     }
     

@@ -56,7 +56,7 @@ export default function Home() {
                             size="small"
                             onChange={(e) => handleRoomIdChange(e)}
                         />
-                        <SecondaryButton sx={{ minWidth: '0' }} disabled={!roomId.replace(/\s/g, '').length} component={Link} to={`/room/${roomId}`}variant="text">
+                        <SecondaryButton sx={{ minWidth: '0' }} disabled={!roomId.replace(/\s/g, '').length} component={Link} to={`/room/${roomId}`} variant="text">
                             Join
                         </SecondaryButton>
                 </Grid>
