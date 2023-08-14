@@ -1,21 +1,45 @@
 import { Grid, Container, MenuItem, TextField, Typography, Avatar, useTheme, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
-import { Editor } from "@monaco-editor/react";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import supportedLanguages from "../data/supportedLanguages.json";
-import * as monaco from '@monaco-editor/react';
+import { Editor } from "@monaco-editor/react";
 import * as Y from 'yjs';
 import { WebsocketProvider } from 'y-websocket';
 import { MonacoBinding } from 'y-monaco';
+import { editor } from "monaco-editor";
+import { useLocation } from "react-router-dom";
 
-const participants = ["James Bond", "Ethan Hunt", "John Wick"];
+const serverWsUrl = import.meta.env.VITE_SERVER_WS_URL;
+// const participants = ["James Bond", "Ethan Hunt", "John Wick"];
+
 
 export default function CodeRoom() {
     const theme = useTheme();
     const [language, useLanguage] = useState("cpp");
-
+    const { state } = useLocation();
+    console.log(state);
     const HandleLanguageChange = (language: string) => {
         useLanguage(language);
     }
+
+    const editorRef = useRef<editor.IStandaloneCodeEditor>();
+    
+    function handleEditorDidMount(editor: editor.IStandaloneCodeEditor) {
+        editorRef.current = editor;
+
+        // Initialize yjs
+        const doc = new Y.Doc(); // collection of shared objects
+
+        // Connect to peers with Web RTC
+        const provider: WebsocketProvider = new WebsocketProvider(serverWsUrl, 'test-room', doc);
+        const type = doc.getText("monaco");
+
+        // Bind yjs doc to Manaco editor
+        const binding = new MonacoBinding(type, editorRef.current!.getModel()!, new Set([editorRef.current!]));
+
+        console.log(provider);
+        console.log(binding);
+    }
+    
     return (
         <>
         <Grid container>
@@ -25,11 +49,12 @@ export default function CodeRoom() {
                 language={language}
                 defaultValue={"// your code here"}
                 theme={theme.palette.mode === "dark" ? "vs-dark" : "vs-light"}
+                onMount={handleEditorDidMount}
                 />
             </Grid>
             <Grid item xs={12} md={2} sx={{ padding: '24px' }}>
-                <Typography variant="subtitle1">Room ID: </Typography>
-                <Typography variant="subtitle1">Date: </Typography>
+                <Typography variant="subtitle1">Room ID: {state.roomId}</Typography>
+                <Typography variant="subtitle1">Date: {state.dateCreated}</Typography>
                 <TextField 
                 sx={{
                     width: '100%',
@@ -49,10 +74,10 @@ export default function CodeRoom() {
                 </TextField>
                 <Typography variant="body1">Participants</Typography>
                 <Container disableGutters sx={{ marginBlock: '1em' }}>
-                {participants.map((p) => (
+                {state.participants.map((p) => (
                     <ListItem key={p} sx={{ paddingLeft: '0' }}>
                         <ListItemAvatar>
-                            <Avatar alt={p}>{p[0]}</Avatar>
+                            <Avatar alt={p}>{ p[0].toUpperCase() }</Avatar>
                         </ListItemAvatar>
                         <ListItemText 
                          primary={p}
