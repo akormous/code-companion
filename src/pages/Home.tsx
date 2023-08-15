@@ -1,23 +1,41 @@
 import { TextField, Typography, useTheme, Grid, InputAdornment } from "@mui/material"
-import { Link } from "react-router-dom"
-import { useState } from "react";
-import NamePrompt from "../components/NamePrompt";
+import React, { useState } from "react";
+import CreateRoomNamePrompt from "../components/CreateRoom_NamePrompt";
+import JoinRoomNamePrompt from "../components/JoinRoom_NamePrompt";
 import CodeSvgDark from "../assets/undraw_collaboration_dark.svg";
 import CodeSvgLight from "../assets/undraw_collaboration_light.svg";
 import PrimaryButton from "../components/ui/PrimaryButton";
 import SecondaryButton from "../components/ui/SecondaryButton";
 import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import KeyboardIcon from '@mui/icons-material/Keyboard';
+import { getRoomById } from "../services/room";
+
 
 export default function Home() {
     const theme = useTheme();
     
     const [roomId, setRoomId] = useState("");
-    const [open, setOpen] = useState(false);
-    const handleOpen = () => setOpen(true);
+    const [createRoomOpen, setCreateRoomOpen] = useState(false);
+    const [joinRoomOpen, setJoinRoomOpen] = useState(false);
+
+    const [joinError, setJoinError] = useState("");
 
     const handleRoomIdChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setRoomId(e.target.value);
+        setJoinError("");
+    }
+
+    const handleJoinRoom = () => {
+        getRoomById(roomId)
+        .then((data) => {
+            if(data.status === 404) {
+                setJoinError(data.error);
+            }
+            else {
+                setJoinError("");
+                setJoinRoomOpen(true);
+            }
+        })
     }
 
     const collabSvg = () => {
@@ -34,14 +52,24 @@ export default function Home() {
                 <Grid item xs={12} md={6} sx={{ paddingInline: '1em', paddingBlock: '1em' }}>
                     <Typography variant="h2" marginBottom={3}>Code collaboration.<br /> Free for everyone.</Typography>
                     <Typography variant="body1" marginBottom={3}>epic insane coding platform epic epic all i do is win win win no matter what got money on my mind and never get enough</Typography>
-                        <PrimaryButton size="large" onClick={handleOpen} startIcon={<MeetingRoomIcon />}>
+                        <PrimaryButton size="large" onClick={() => setCreateRoomOpen(true)} startIcon={<MeetingRoomIcon />}>
                             Create a Room
                         </PrimaryButton>
-                        <NamePrompt open={open} setOpen={setOpen} />
+                        <CreateRoomNamePrompt 
+                         open={createRoomOpen} 
+                         setOpen={setCreateRoomOpen} 
+                        />
+                        <JoinRoomNamePrompt
+                         open={joinRoomOpen} 
+                         setOpen={setJoinRoomOpen}
+                         roomId={roomId}
+                        />
                         &nbsp;
                         or
                         &nbsp;
                         <TextField
+                            error={joinError !== ""}
+                            helperText={joinError}
                             InputProps={{
                                 startAdornment: (
                                 <InputAdornment position="start">
@@ -56,7 +84,7 @@ export default function Home() {
                             size="small"
                             onChange={(e) => handleRoomIdChange(e)}
                         />
-                        <SecondaryButton sx={{ minWidth: '0' }} disabled={!roomId.replace(/\s/g, '').length} component={Link} to={`/room/${roomId}`} variant="text">
+                        <SecondaryButton sx={{ minWidth: '0' }} disabled={!roomId.replace(/\s/g, '').length} onClick={handleJoinRoom} variant="text">
                             Join
                         </SecondaryButton>
                 </Grid>
