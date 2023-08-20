@@ -2,44 +2,33 @@ import { Modal, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import PrimaryButton from "./ui/PrimaryButton";
 import PrimaryBox from "./ui/PrimaryBox";
+import { joinRoom } from "../services/room";
 import { useNavigate } from "react-router-dom";
 
-const serverUrl = import.meta.env.VITE_SERVER_URL;
-const baseUrl = import.meta.env.VITE_BASE_URL;
-
-console.log(serverUrl);
-console.log(baseUrl);
 interface NamePromptProps {
     open: boolean,
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    roomId: string
 }
 
-export default function NamePrompt({open, setOpen}: NamePromptProps) {
+export default function JoinRoomNamePrompt({open, setOpen, roomId}: NamePromptProps) {
     const [name, setName] = useState("");
     const handleClose = () => setOpen(false);
     const navigate = useNavigate();
 
     const handleJoinRoom = () => {
-        fetch(`${serverUrl}/api/v1/room/create`, {
-            method: 'POST',
-            body: JSON.stringify({ name: name }),
-            headers: {
-                "Accept": "application/json",
-                "Content-Type": "application/json"
-            }
-        }).then((res) => res.json())
+        // add participant and navigate to page
+        joinRoom(name, roomId)
         .then((data) => {
-            navigate(`/room/${data.roomId}`, { state: { roomId: data.roomId, dateCreated: new Date().toLocaleString(), participants: [name] } })
-            //return redirect(`${baseUrl}/room/${data.roomId}`);
-            // window.location.replace(`${baseUrl}/room/${data.roomId}`);
-        });
+            navigate(`/room/${data.roomId}`, { state: { roomId: data.roomId, dateCreated: data.dateCreated, participants: data.participants, language: data.programmingLanguage } })
+        })
     }
     
     return (
         
         <Modal open={open} onClose={handleClose}>
             <PrimaryBox sx={{ alignContent: 'center', display: 'flex', flexDirection: 'column' }}>
-                <Typography align="center" variant="h4" sx={{ paddingBottom: '1em' }}>Create new room</Typography> 
+                <Typography align="center" variant="h4" sx={{ paddingBottom: '1em' }}>Enter room: {roomId}</Typography> 
                 <TextField
                     sx={{
                         width: '100%',

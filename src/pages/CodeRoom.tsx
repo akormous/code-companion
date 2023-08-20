@@ -1,5 +1,5 @@
 import { Grid, Container, MenuItem, TextField, Typography, Avatar, useTheme, ListItem, ListItemAvatar, ListItemText } from "@mui/material";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import supportedLanguages from "../data/supportedLanguages.json";
 import { Editor } from "@monaco-editor/react";
 import * as Y from 'yjs';
@@ -7,18 +7,25 @@ import { WebsocketProvider } from 'y-websocket';
 import { MonacoBinding } from 'y-monaco';
 import { editor } from "monaco-editor";
 import { useLocation } from "react-router-dom";
+import { changeLanguage } from "../services/room";
+import { useContext } from "react";
+import { SocketContext } from "../context/SocketContext";
 
 const serverWsUrl = import.meta.env.VITE_SERVER_WS_URL;
-// const participants = ["James Bond", "Ethan Hunt", "John Wick"];
-
 
 export default function CodeRoom() {
     const theme = useTheme();
-    const [language, useLanguage] = useState("cpp");
+    
     const { state } = useLocation();
-    console.log(state);
+    const [language, setLanguage] = useState(state.language);
+    const [participants, setParticipants] = useState<string[]>(state.participants);
+    const socket = useContext(SocketContext);
+
     const HandleLanguageChange = (language: string) => {
-        useLanguage(language);
+        setLanguage(language);
+        changeLanguage(language, state.roomId)
+        .then((data) => console.log("Language changed to " + data.programmingLanguage));
+        socket.emit('language:change', {"language": language, "roomId": state.roomId });
     }
 
     const editorRef = useRef<editor.IStandaloneCodeEditor>();
@@ -30,15 +37,44 @@ export default function CodeRoom() {
         const doc = new Y.Doc(); // collection of shared objects
 
         // Connect to peers with Web RTC
-        const provider: WebsocketProvider = new WebsocketProvider(serverWsUrl, 'test-room', doc);
+        const provider: WebsocketProvider = new WebsocketProvider(serverWsUrl, state.roomId, doc);
         const type = doc.getText("monaco");
 
         // Bind yjs doc to Manaco editor
         const binding = new MonacoBinding(type, editorRef.current!.getModel()!, new Set([editorRef.current!]));
-
-        console.log(provider);
         console.log(binding);
+
+        provider.emit('myevent', "this is client message" );
     }
+
+    useEffect(() => {
+      socket.on('participant:add', (data) => {
+        if(data.roomId == state.roomId) {
+            console.log(data);
+            setParticipants(data.participants);
+            setLanguage(data.programmingLanguage);
+        }
+      })
+
+      socket.on('language:change', (data) => {
+        if(data.roomId == state.roomId) {
+            console.log(data);
+            setLanguage(data.language);
+        }
+        
+      })
+    
+      return () => {
+        // socket.off('participant:add', (data) => {
+        //     console.log("Disconnected from participant add " + data)
+        // });
+
+        // socket.off('language:change', (data) => {
+        //     console.log("Disconnected from language change " + data)
+        // })
+      }
+    }, [])
+    
     
     return (
         <>
@@ -64,7 +100,8 @@ export default function CodeRoom() {
                 size="small"
                 select
                 label="Programming Language"
-                defaultValue={language}
+                value={language}
+                defaultValue="cpp"
                 >
                     {supportedLanguages.map((option) => (
                         <MenuItem key={option.value} value={option.value} onClick={() => HandleLanguageChange(option.value)}>
@@ -74,7 +111,7 @@ export default function CodeRoom() {
                 </TextField>
                 <Typography variant="body1">Participants</Typography>
                 <Container disableGutters sx={{ marginBlock: '1em' }}>
-                {state.participants.map((p) => (
+                {participants.map((p) => (
                     <ListItem key={p} sx={{ paddingLeft: '0' }}>
                         <ListItemAvatar>
                             <Avatar alt={p}>{ p[0].toUpperCase() }</Avatar>
