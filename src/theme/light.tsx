@@ -1,6 +1,8 @@
+import { PaletteMode } from "@mui/material";
+
 export const light = {
     palette: {
-      mode: 'light',
+      mode: 'light' as PaletteMode,
       primary: {
         main: 'rgba(29,51,84,0.84)',
         contrastText: '#000000'

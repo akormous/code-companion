@@ -1,6 +1,8 @@
+import { PaletteMode } from "@mui/material";
+
 export const dark = {
     palette: {
-        mode: 'dark',
+        mode: 'dark' as PaletteMode,
         primary: {
           main: '#3f8894',
           contrastText: '#fff'
