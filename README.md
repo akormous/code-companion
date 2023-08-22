@@ -1,27 +1,17 @@
-# React + TypeScript + Vite
+# Code Companion - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Netlify Status](https://api.netlify.com/api/v1/badges/471989bb-32bf-46b2-9bd3-b2c86800c68e/deploy-status)](https://app.netlify.com/sites/code-companion/deploys)
 
-Currently, two official plugins are available:
+![Code Companion Logo](./public/CODE_COMPANION.gif)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Code Companion is a shared code-editor application that lets you invite people to your document via a invite code.
 
-## Expanding the ESLint configuration
+## Features
+- Syntax highlighting for a plethora of programming languages
+- Supports offline edits
+- Light and Dark mode
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
-
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Tech Stack
+- React + Vite
+- Material UI v5
+- yjs (CRDT)
