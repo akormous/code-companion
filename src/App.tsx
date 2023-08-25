@@ -14,11 +14,13 @@ function App() {
     <Navbar />
     <Paper
      sx={{
-      height: '92vh',
+      minHeight: '92vh',
+      height: 'auto',
       backgroundColor: theme.palette.background.default,
       borderRadius: '0px',
       display: 'flex',
-      justifyContent: 'center'
+      justifyContent: 'center',
+      alignItems: 'center'
      }}
     >
     
