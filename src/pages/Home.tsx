@@ -51,7 +51,7 @@ export default function Home() {
             <Grid container maxWidth="lg" sx={{ height: "100%", alignItems: 'center' }}>
                 <Grid item xs={12} md={6} sx={{ paddingInline: '1em', paddingBlock: '1em' }}>
                     <Typography variant="h2" marginBottom={3}>Code collaboration.<br /> Free for everyone.</Typography>
-                    <Typography variant="body1" marginBottom={3}>epic insane coding platform epic epic all i do is win win win no matter what got money on my mind and never get enough</Typography>
+                    <Typography variant="body1" marginBottom={3}>Shared code-editor with syntax highlighting. Best for interviews, pair-programming or just collaborating on a script</Typography>
                         <PrimaryButton size="large" onClick={() => setCreateRoomOpen(true)} startIcon={<MeetingRoomIcon />}>
                             Create a Room
                         </PrimaryButton>

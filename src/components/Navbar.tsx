@@ -27,7 +27,7 @@ export default function Navbar() {
             code companion
           </Typography>
           <Clock />
-          <Button component={Link} to="/room/1" color="inherit">About</Button>
+          <Button component={Link} to="/about" color="inherit">About</Button>
           <ThemeSwitch checked={theme.palette.mode === "dark"} onClick={colorMode.toggleColorMode} />
         </Toolbar>
       </AppBar>
