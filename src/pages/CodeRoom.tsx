@@ -42,7 +42,7 @@ export default function CodeRoom() {
 
         // Bind yjs doc to Manaco editor
         const binding = new MonacoBinding(type, editorRef.current!.getModel()!, new Set([editorRef.current!]));
-        console.log(binding);
+        console.log(binding, provider);
 
     }
 
