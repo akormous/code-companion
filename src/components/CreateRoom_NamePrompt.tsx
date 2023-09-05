@@ -38,6 +38,12 @@ export default function CreateRoomNamePrompt({open, setOpen}: NamePromptProps) {
                     value={name}
                     size="small"
                     onChange={(e) => setName(e.target.value)}
+                    onKeyUp={(event) => {
+                        if (event.key== 'Enter') {
+                            handleCreateRoom();
+                        }
+                            
+                    }}
                 />
                 <PrimaryButton sx={{ minWidth: '0', width: '100%' }} disabled={!name.replace(/\s/g, '').length} onClick={handleCreateRoom} variant="text">
                         Join

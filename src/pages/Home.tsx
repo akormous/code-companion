@@ -83,6 +83,12 @@ export default function Home() {
                             value={roomId}
                             size="small"
                             onChange={(e) => handleRoomIdChange(e)}
+                            onKeyUp={(event) => {
+                                if (event.key== 'Enter') {
+                                    handleJoinRoom();
+                                }
+                                    
+                            }}
                         />
                         <SecondaryButton sx={{ minWidth: '0' }} disabled={!roomId.replace(/\s/g, '').length} onClick={handleJoinRoom} variant="text">
                             Join

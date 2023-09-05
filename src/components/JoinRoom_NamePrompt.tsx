@@ -38,6 +38,12 @@ export default function JoinRoomNamePrompt({open, setOpen, roomId}: NamePromptPr
                     value={name}
                     size="small"
                     onChange={(e) => setName(e.target.value)}
+                    onKeyUp={(event) => {
+                        if (event.key== 'Enter') {
+                            handleJoinRoom();
+                        }
+                            
+                    }}
                 />
                 <PrimaryButton sx={{ minWidth: '0', width: '100%' }} disabled={!name.replace(/\s/g, '').length} onClick={handleJoinRoom} variant="text">
                         Join

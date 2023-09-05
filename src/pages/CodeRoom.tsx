@@ -44,7 +44,6 @@ export default function CodeRoom() {
         const binding = new MonacoBinding(type, editorRef.current!.getModel()!, new Set([editorRef.current!]));
         console.log(binding);
 
-        provider.emit('myevent', "this is client message" );
     }
 
     useEffect(() => {
@@ -65,13 +64,7 @@ export default function CodeRoom() {
       })
     
       return () => {
-        // socket.off('participant:add', (data) => {
-        //     console.log("Disconnected from participant add " + data)
-        // });
 
-        // socket.off('language:change', (data) => {
-        //     console.log("Disconnected from language change " + data)
-        // })
       }
     }, [])
     
