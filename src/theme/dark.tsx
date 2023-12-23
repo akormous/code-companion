@@ -37,6 +37,9 @@ export const dark = {
         },
         body1: {
             fontFamily: 'Questrial'
-        }
+        },
+        body2: {
+          fontFamily: 'Questrial'
+      },
     },
 }
